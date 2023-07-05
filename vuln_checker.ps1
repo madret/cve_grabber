@@ -29,7 +29,7 @@ while ($resultsPerPage -lt 1 -or $resultsPerPage -gt 100) {
 
 $searchQuery = $software.Replace(" ", "%20")
 
-# Construct the API URL
+# Public API url
 $url = "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=$searchQuery&resultsPerPage=$resultsPerPage&startIndex=10"
 
 $headers = @{
@@ -51,7 +51,7 @@ if ($response.vulnerabilities -eq $null) {
     exit
 }
 
-# Extract CVE IDs and descriptions from the response
+# Extract CVE IDs and descriptions
 $cveIDs = @()
 $descriptions = @()
 
@@ -112,7 +112,7 @@ if ($validCVEs.Count -eq 0) {
     $validCVEs = $CVEs -split ',\s*' | Where-Object { $_ -match '^CVE-\d{4}-\d{4,}$' }
 }
 
-# Process the valid CVE IDs
+# Process valid CVE IDs
 foreach ($CVE in $validCVEs) {
     $apiUrl = "https://cve.circl.lu/api/cve/$CVE"
     $jsonResponse = Invoke-RestMethod -Uri $apiUrl
