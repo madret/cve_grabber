@@ -8,5 +8,5 @@ Check for vulnerabilites in software/hardware + version and thereafter grab corr
 4. Grab actionable information:
 
 ![image](https://github.com/madret/vuln_checker/assets/56820649/db2dbe53-fe58-42ef-acfb-5eae56ac5d12)
-............................
+********************************************************************************************************
 ![image](https://github.com/madret/vuln_checker/assets/56820649/15d47021-3c23-4f68-bcb5-705ff0e93c29)
