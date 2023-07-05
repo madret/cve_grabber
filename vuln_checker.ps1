@@ -27,10 +27,10 @@ while ($resultsPerPage -lt 1 -or $resultsPerPage -gt 100) {
     }
 }
 
-$searchQuery = $software.Replace(" ", "+")
+$searchQuery = $software.Replace(" ", "%20")
 
 # Construct the API URL
-$url = "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=$searchQuery&resultsPerPage=$resultsPerPage"
+$url = "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=$searchQuery&resultsPerPage=$resultsPerPage&startIndex=10"
 
 $headers = @{
     "User-Agent" = "Mozilla/5.0 (Linux; Android 12; CPH2127 Build/RKQ1.211119.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/114.0.5735.196 Mobile Safari/537.36"
@@ -125,17 +125,17 @@ foreach ($CVE in $validCVEs) {
     $url = "https://nvd.nist.gov/vuln/detail/$CVE"
 
     try {
-        $response = Invoke-RestMethod -Uri $url
-    } catch [System.Net.WebException] {
-        $statusCode = $_.Exception.Response.StatusCode
-        if ($statusCode -eq [System.Net.HttpStatusCode]::ServiceUnavailable) {
+        $response = Invoke-RestMethod -Uri $url -ErrorVariable errorMessage -ErrorAction SilentlyContinue
+    } catch {
+        if ($errorMessage.Exception.Response.StatusCode -eq [System.Net.HttpStatusCode]::ServiceUnavailable) {
             Write-Host "The server responded with a 503 error. Please try again later."
             continue
-        } else {
-            Write-Host "Error occurred while fetching data. Details: $_"
-            exit
-        }
+    } else {
+        Write-Host "Error occurred while fetching data. Details: $_"
+        exit
     }
+}
+
 
     $exploitString = "This CVE is in CISA's Known Exploited Vulnerabilities Catalog"
 
