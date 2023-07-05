@@ -3,7 +3,7 @@ Check for vulnerabilites in software/hardware + version and thereafter grab corr
 
 ## Example usage
 1. Run the script `.\vuln_checker.ps1 -ExecutionPolicy Bypass`
-2. Enter software/hardware + version,
+2. Enter name of software/hardware + version,
 3. Thereafter enter desired CVE ID,
 4. Grab actionable information:
 
