@@ -1,6 +1,7 @@
 # vuln_checker
 Checks for vulnerabilites in software/hardware + version and thereafter grabs corresponding CVE information. 
-Useful for security advisories.
+
+### Useful for security advisories.
 
 ## Example usage
 1. Run the script `.\vuln_checker.ps1 -ExecutionPolicy Bypass`
@@ -9,7 +10,7 @@ Useful for security advisories.
 4. Thereafter enter desired CVE ID(s);
 5. After second output, grab actionable CVE information:
 
-![image](https://github.com/madret/vuln_checker/assets/56820649/c4c2faf1-0c47-4ce5-8f04-bab40610a54c)
+![image](https://github.com/madret/vuln_checker/assets/56820649/393765c0-5e06-40e6-be0a-1e7c69b57d40)
 
 ********************************************************************************************************
 ![image](https://github.com/madret/vuln_checker/assets/56820649/15d47021-3c23-4f68-bcb5-705ff0e93c29)
