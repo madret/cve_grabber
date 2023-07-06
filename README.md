@@ -15,3 +15,5 @@ Useful for security advisories.
 ![image](https://github.com/madret/vuln_checker/assets/56820649/15d47021-3c23-4f68-bcb5-705ff0e93c29)
 
 ### No additional powershell modules needs to be installed.
+
+[@b41ss](https://twitter.com/b41ss) 
