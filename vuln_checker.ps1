@@ -37,7 +37,7 @@ $headers = @{
 }
 
 try {
-    Write-Host "Fetching data from the NVD database, this can take a minute (±).." -ForegroundColor Yellow
+    Write-Host "Fetching data from the NVD database, this can take a minute (±).." -ForegroundColor Green
     $response = Invoke-RestMethod -Uri $url -Headers $headers
 }
 catch {
