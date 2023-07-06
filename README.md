@@ -1,7 +1,6 @@
 # vuln_checker
 Checks for vulnerabilites in software/hardware + version and thereafter grabs corresponding CVE information. 
-
-### Useful for security advisories.
+Useful for security advisories.
 
 ## Example usage
 1. Run the script `.\vuln_checker.ps1 -ExecutionPolicy Bypass`
