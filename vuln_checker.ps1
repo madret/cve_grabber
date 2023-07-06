@@ -15,7 +15,7 @@ $software = Read-Host -Prompt "Enter the name and version of the software/hardwa
 
 $resultsPerPage = 0
 while ($resultsPerPage -lt 1 -or $resultsPerPage -gt 100) {
-    $resultsPerPage = Read-Host -Prompt "Enter the number of results per page (recommendation: 3)"
+    $resultsPerPage = Read-Host -Prompt "Enter the number of results per page (maximum: 100)"
     if (![string]::IsNullOrWhiteSpace($resultsPerPage) -and $resultsPerPage -match '^\d+$') {
         $resultsPerPage = [int]$resultsPerPage
         if ($resultsPerPage -lt 1 -or $resultsPerPage -gt 100) {
@@ -51,7 +51,7 @@ if ($response.vulnerabilities -eq $null) {
     exit
 }
 
-# Extract CVE IDs and descriptions
+# Extract CVE IDs and descriptions from the response
 $cveIDs = @()
 $descriptions = @()
 
