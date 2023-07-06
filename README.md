@@ -9,7 +9,8 @@ Useful for security advisories.
 4. Thereafter enter desired CVE ID(s);
 5. After second output, grab actionable CVE information:
 
-![image](https://github.com/madret/vuln_checker/assets/56820649/db2dbe53-fe58-42ef-acfb-5eae56ac5d12)
+![image](https://github.com/madret/vuln_checker/assets/56820649/c4c2faf1-0c47-4ce5-8f04-bab40610a54c)
+
 ********************************************************************************************************
 ![image](https://github.com/madret/vuln_checker/assets/56820649/15d47021-3c23-4f68-bcb5-705ff0e93c29)
 
