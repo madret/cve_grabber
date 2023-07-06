@@ -16,5 +16,4 @@ Useful for security advisories.
 
 ### No additional powershell modules needs to be installed.
 
-#### Under development by: 
-[@b41ss](https://twitter.com/b41ss) 
+#### Under development by: [@b41ss](https://twitter.com/b41ss) 
