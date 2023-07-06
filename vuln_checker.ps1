@@ -7,6 +7,7 @@ Write-Host
                                                             ")
 
 Write-Host ("Check for vulnerabilites in software/hardware and thereafter grab corresponding CVE information.")
+Write-Host ("Maintained by @b41ss.")
 Write-Host ("*Keep in mind that the public rate limit (without an API key) is 5 requests in a 30 second window.") -ForegroundColor Red
 Write-Host ("---------------------------------------------------------------")
 
