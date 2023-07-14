@@ -16,4 +16,4 @@ Useful for security advisories.
 
 ### No additional powershell modules need to be installed.
 
-#### vuln_checker is maintained by: [@b41ss](https://twitter.com/b41ss) 
+vuln_checker is maintained by: [@b41ss](https://twitter.com/b41ss) 
