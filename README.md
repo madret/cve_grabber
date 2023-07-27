@@ -2,6 +2,10 @@
 Checks for vulnerabilites in software/hardware + version and thereafter grabs corresponding CVE information. 
 Useful for security advisories.
 
+## Warning:
+NVD recently posted the following notice about temporary API restrictions:
+![image](https://github.com/madret/vuln_checker/assets/56820649/8fe12454-8ec4-4d7c-97a6-4cb75585deb7)
+
 ## Example usage
 1. Run the script `.\vuln_checker.ps1 -ExecutionPolicy Bypass`
 2. Enter name of software/hardware + version;
