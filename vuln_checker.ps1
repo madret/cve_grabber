@@ -6,10 +6,12 @@ Write-Host
 |___/\__,_/_/_/ /_/   \___/_/ /_/\___/\___/_/|_|\___/_/     
                                                             ")
 
-Write-Host ("Check for vulnerabilites in software/hardware and thereafter grab corresponding CVE information.")
+Write-Host ("Search for vulnerabilites in software or hardware and/or grab actionable CVE information.")
 Write-Host ("Maintained by @b41ss.")
 Write-Host ("*Keep in mind that the public NVD rate limit (without an API key) is 5 requests in a 30 second window.") -ForegroundColor Red
 Write-Host ("---------------------------------------------------------------")
+
+function SearchForSoftwareVulnerabilities {
 
 # Prompt user input for software and results per page
 $software = Read-Host -Prompt "Enter the name and version of the software/hardware (be specific), separated by a space (e.g: moveit 2023.0.3)"
@@ -38,7 +40,7 @@ $headers = @{
 }
 
 try {
-    Write-Host "Fetching data from the NVD database, this can take a minute (±).." -ForegroundColor Green
+    Write-Host "Fetching data from the NVD database, this can take a minute.." -ForegroundColor Green
     $response = Invoke-RestMethod -Uri $url -Headers $headers
 }
 catch {
@@ -81,10 +83,10 @@ for ($i = 0; $i -lt $cveIDs.Count; $i++) {
 }
 
 Write-Output ""
-Write-Output ""
+Write-Output "" 
 
 # Third user prompt for CVE ID input
-$CVEs = Read-Host -Prompt "Extended CVE ID lookup. Enter one or more CVE IDs, separated by a comma (e.g. CVE-2023-27997,CVE-2022-41040)"
+$CVEs = Read-Host -Prompt "Now enter one or more CVE IDs, separated by a comma (e.g. CVE-2023-27997,CVE-2022-41040)"
 
 # Check if the input is empty or contains only whitespace
 if ([string]::IsNullOrWhiteSpace($CVEs)) {
@@ -137,6 +139,116 @@ foreach ($CVE in $validCVEs) {
     }
 }
 
+    $exploitString = "This CVE is in CISA's Known Exploited Vulnerabilities Catalog"
+
+    $regex = '(?<=class="label label-(\w+)">)(.*?)(?=<\/a>)'
+    $matches = [regex]::Match($response, $regex)
+
+    $cvssScore = "N/A"
+    if ($matches.Success) {
+        $cvssScore = $matches.Groups[2].Value
+        $severityLevel = $matches.Groups[1].Value
+    }
+
+    Write-Host ("ID: {0,-20} CVSS Score: {1}" -f $id, $cvssScore) -ForegroundColor Magenta
+
+    Write-Host ("References:") -ForegroundColor Green
+    foreach ($ref in $references) {
+        Write-Host $ref -ForegroundColor Blue
+    }
+
+    Write-Host ("Summary:") -ForegroundColor Green
+    Write-Host $summary -ForegroundColor Yellow
+
+    Write-Host "Vulnerable Products:" -ForegroundColor Green
+    $sortedProducts = $vulnerableProducts | Sort-Object
+    foreach ($product in $sortedProducts) {
+        $cleanProduct = $product -replace '^cpe:2\.3:[a-z]:'
+        Write-Host $cleanProduct -ForegroundColor Yellow
+    }
+
+    $exploitFound = $response -like "*$exploitString*"
+
+    if ($exploitFound) {
+        Write-Host ("Exploit: ") -NoNewline -ForegroundColor Green
+        Write-Host "Yes, this CVE is in CISA's Known Exploited Vulnerabilities Catalog." -ForegroundColor Red
+        Write-Host ("URLs: ") -ForegroundColor Green
+        Write-Host "https://nvd.nist.gov/vuln/detail/$CVE" -ForegroundColor Blue
+        Write-Host "https://github.com/nomi-sec/PoC-in-GitHub" -ForegroundColor Blue
+    } else {
+        Write-Host ("Exploit: ") -NoNewline -ForegroundColor Green
+        Write-Host "No, this CVE is not in CISA's Known Exploited Vulnerabilities Catalog." -ForegroundColor Yellow
+        Write-Host "However, there could still be an exploit POC for this vuln:" -ForegroundColor Yellow
+        Write-Host "https://github.com/nomi-sec/PoC-in-GitHub" -ForegroundColor Blue
+    }
+
+    Write-Host "---------------------"
+}
+
+}
+
+# Prompt user input for option
+$option = Read-Host -Prompt "Do you want to perform a vulnerability search (enter 1) or search by CVE ID (enter 2)?"
+
+if ($option -eq '1') {
+    # First option: Searching for software vulnerabilities
+    SearchForSoftwareVulnerabilities
+}
+elseif ($option -eq '2') {
+    # Second option: Searching by CVE ID
+# Third user prompt for CVE ID input
+$CVEs = Read-Host -Prompt "Enter one or more CVE IDs, separated by a comma (e.g. CVE-2023-27997,CVE-2022-41040)"
+
+# Check if the input is empty or contains only whitespace
+if ([string]::IsNullOrWhiteSpace($CVEs)) {
+    Write-Host "No CVE IDs entered. Please try again."
+    # Prompt the user to re-enter the CVE ID information
+    $CVEs = Read-Host -Prompt "Enter one or more CVE IDs, separated by a comma (e.g. CVE-2023-27997,CVE-2022-41040)"
+    # Check if the input is empty or contains only whitespace again
+    if ([string]::IsNullOrWhiteSpace($CVEs)) {
+        Write-Host "No CVE IDs entered. Exiting the script."
+        exit
+    }
+}
+
+# Validate the input using regex
+$validCVEs = $CVEs -split ',\s*' | Where-Object { $_ -match '^CVE-\d{4}-\d{4,}$' }
+if ($validCVEs.Count -eq 0) {
+    Write-Host "Invalid CVE IDs entered. Please enter one or more valid CVE IDs in the format 'CVE-YYYY-NNNNN'."
+    # Prompt the user to re-enter the CVE ID information
+    $CVEs = Read-Host -Prompt "Now enter one or more CVE IDs, separated by a comma (e.g. CVE-2023-27997,CVE-2022-41040)"
+    # Check if the input is empty or contains only whitespace
+    if ([string]::IsNullOrWhiteSpace($CVEs)) {
+        Write-Host "No CVE IDs entered. Exiting the script."
+        exit
+    }
+    # Validate the input again
+    $validCVEs = $CVEs -split ',\s*' | Where-Object { $_ -match '^CVE-\d{4}-\d{4,}$' }
+}
+
+# Process valid CVE IDs
+foreach ($CVE in $validCVEs) {
+    $apiUrl = "https://cve.circl.lu/api/cve/$CVE"
+    $jsonResponse = Invoke-RestMethod -Uri $apiUrl
+    
+    $id = $jsonResponse.id
+    $references = $jsonResponse.references
+    $summary = $jsonResponse.summary
+    $vulnerableProducts = $jsonResponse.vulnerable_product
+    
+    $url = "https://nvd.nist.gov/vuln/detail/$CVE"
+
+    try {
+        $response = Invoke-RestMethod -Uri $url -ErrorVariable errorMessage -ErrorAction SilentlyContinue
+    } catch {
+        if ($errorMessage.Exception.Response.StatusCode -eq [System.Net.HttpStatusCode]::ServiceUnavailable) {
+            Write-Host "The server responded with a 503 error. Please try again later."
+            continue
+    } else {
+        Write-Host "Error occurred while fetching data. Details: $_"
+        exit
+    }
+}
 
     $exploitString = "This CVE is in CISA's Known Exploited Vulnerabilities Catalog"
 
@@ -183,3 +295,9 @@ foreach ($CVE in $validCVEs) {
 
     Write-Host "---------------------"
 }
+}
+else {
+    Write-Host "Invalid option selected. Please enter either 1 or 2."
+}
+
+
