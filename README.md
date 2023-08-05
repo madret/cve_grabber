@@ -3,7 +3,7 @@ Search for vulnerabilites in software or hardware and grab actionable CVE inform
 Useful for security advisories.
 
 ## ** Informational **
-NVD recently posted the following notice about temporary API restrictions that will affect the script:
+NVD recently posted the following notice about temporary API restrictions that could affect the script:
 ![image](https://github.com/madret/vuln_checker/assets/56820649/8fe12454-8ec4-4d7c-97a6-4cb75585deb7)
 
 ## Example usage
