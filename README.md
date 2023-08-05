@@ -1,5 +1,5 @@
 # vuln_checker
-Checks for vulnerabilites in software/hardware + version and thereafter grabs corresponding CVE information. 
+Search for vulnerabilites in software or hardware and grab actionable CVE information.
 Useful for security advisories.
 
 ## ** Warning **
