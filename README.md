@@ -2,10 +2,6 @@
 Search for vulnerabilites in software or hardware and grab actionable CVE information.
 Useful for security advisories.
 
-## ** Informational **
-NVD recently posted the following notice about temporary API restrictions that could affect the script:
-![image](https://github.com/madret/vuln_checker/assets/56820649/8fe12454-8ec4-4d7c-97a6-4cb75585deb7)
-
 ## Example usage
 1. Run the script `.\vuln_checker.ps1 -ExecutionPolicy Bypass`
 2. **New**: The script now gives two options, 1: Perform vulnerability search followed by CVE search, 2: Search per CVE ID right away.
@@ -22,3 +18,7 @@ NVD recently posted the following notice about temporary API restrictions that c
 ### No additional powershell modules need to be installed.
 
 vuln_checker is maintained by [@b41ss](https://twitter.com/b41ss) 
+
+## ** Informational **
+NVD recently posted the following notice about temporary API restrictions that could affect the script:
+![image](https://github.com/madret/vuln_checker/assets/56820649/8fe12454-8ec4-4d7c-97a6-4cb75585deb7)
