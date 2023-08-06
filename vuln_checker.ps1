@@ -14,7 +14,7 @@ Write-Host ("---------------------------------------------------------------")
 function SearchForSoftwareVulnerabilities {
 
 # Prompt user input for software and results per page
-$software = Read-Host -Prompt "Enter the name and version of the software/hardware (be specific), separated by a space (e.g: moveit 2023.0.3)"
+$software = Read-Host -Prompt "Enter the name and version of the software/hardware (be specific), separated by a space (e.g: splunk 9.0)"
 
 $resultsPerPage = 0
 while ($resultsPerPage -lt 1 -or $resultsPerPage -gt 100) {
