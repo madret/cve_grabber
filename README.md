@@ -18,7 +18,3 @@ Useful for security advisories.
 ### No additional powershell modules need to be installed.
 
 vuln_checker is maintained by [@b41ss](https://twitter.com/b41ss) 
-
-## ** Informational **
-NVD recently posted the following notice about temporary API restrictions that could affect the script:
-![image](https://github.com/madret/vuln_checker/assets/56820649/8fe12454-8ec4-4d7c-97a6-4cb75585deb7)
